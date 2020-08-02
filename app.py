@@ -1,5 +1,6 @@
 from flask import Flask, request
 import logging
+import json
 
 application = Flask(__name__)
 application.logger.setLevel(logging.INFO)
@@ -15,8 +16,16 @@ def index():
 def web_hook():
     application.logger.info("Web hook called")
     application.logger.info("Web hook headers: {}".format(request.headers))
-    application.logger.info("Web hook form data: {}".format(request.form))
-    application.logger.info("Web hook form data dict: {}".format(request.form.to_dict()))
+    info = request.form.to_dict()
+    payload = info["payload"]
+    # convert into JSON:
+    json_payload = json.loads(payload)
+    application.logger.info("json payload {}".format(json_payload))
+    application.logger.info(
+        "Interesting data - Event: '{}' User: '{}' Type: '{}' Title: '{}'".format(json_payload["event"],
+                                                                                  json_payload["user"],
+                                                                                  json_payload["Metadata"]["type"],
+                                                                                  json_payload["Metadata"]["title"]))
     return 'Done'
 
 
