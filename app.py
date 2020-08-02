@@ -15,7 +15,7 @@ def index():
 def web_hook():
     application.logger.info("Web hook called")
     application.logger.info("Web hook headers: {}".format(request.headers))
-    application.logger.info("Web hook data: {}".format(request.data))
+    application.logger.info("Web hook form data: {}".format(request.form))
     application.logger.info("Web hook JSON data: {}".format(request.get_json()))
     return 'Done'
 
