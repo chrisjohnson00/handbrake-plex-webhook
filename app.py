@@ -16,7 +16,7 @@ def web_hook():
     application.logger.info("Web hook called")
     application.logger.info("Web hook headers: {}".format(request.headers))
     application.logger.info("Web hook form data: {}".format(request.form))
-    application.logger.info("Web hook JSON data: {}".format(request.get_json()))
+    application.logger.info("Web hook form data dict: {}".format(request.form.to_dict()))
     return 'Done'
 
 
