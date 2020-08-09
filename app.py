@@ -15,12 +15,12 @@ def index():
 @application.route('/webhook', methods=['GET', 'POST'])
 def web_hook():
     application.logger.info("Web hook called")
-    application.logger.info("Web hook headers: {}".format(request.headers))
+    application.logger.debug("Web hook headers: {}".format(request.headers))
     info = request.form.to_dict()
     payload = info["payload"]
     # convert into JSON:
     json_payload = json.loads(payload)
-    application.logger.info("json payload {}".format(json_payload))
+    application.logger.debug("json payload {}".format(json_payload))
     application.logger.info(
         "Interesting data - Event: '{}' User: '{}' Type: '{}' Title: '{}'".format(json_payload["event"],
                                                                                   json_payload["user"],
