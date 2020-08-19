@@ -10,6 +10,6 @@ action "Build" {
     PIPELINE = "christv/bash-example"
     COMMIT = "HEAD"
     BRANCH = "master"
-    MESSAGE = ":github: Triggered from a GitHub Action"
+    MESSAGE = "Triggered from a GitHub Action"
   }
 }
