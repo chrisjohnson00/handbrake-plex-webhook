@@ -13,9 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: buildkite/trigger-pipeline-action@v1.2.0
-      env:
-        PIPELINE: "my-org/my-deploy-pipeline"
-        COMMIT: "HEAD"
-        BRANCH: "master"
-        MESSAGE: ":github: Triggered from a GitHub Action"
+    - name: Fire buildkite request
+      run: |
+        curl -H "Authorization: Bearer ${{ secrets.BUILDKITE_TOKEN }}" "https://api.buildkite.com/v2/organizations/christv/pipelines/bash-example/builds" \
+        -X "POST" \
+        -F "commit=HEAD" \
+        -F "branch=master" \
+        -F "message=First build :rocket:"
