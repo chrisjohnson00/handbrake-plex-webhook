@@ -1,15 +1,21 @@
-workflow "Trigger a Buildkite Build" {
-  on = "push"
-  resolves = ["Build"]
-}
+name: BuildKite
 
-action "Build" {
-  uses = "buildkite/trigger-pipeline-action@v1.2.0"
-  secrets = ["BUILDKITE_API_ACCESS_TOKEN"]
-  env = {
-    PIPELINE = "christv/bash-example"
-    COMMIT = "HEAD"
-    BRANCH = "master"
-    MESSAGE = "Triggered from a GitHub Action"
-  }
-}
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - v**
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: buildkite/trigger-pipeline-action@v1.2.0
+      env:
+        PIPELINE: "my-org/my-deploy-pipeline"
+        COMMIT: "HEAD"
+        BRANCH: "master"
+        MESSAGE: ":github: Triggered from a GitHub Action"
