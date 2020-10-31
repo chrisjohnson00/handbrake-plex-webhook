@@ -1,10 +1,13 @@
 from flask import Flask, request
-import logging
 import json
+import pygogo as gogo
 
 application = Flask(__name__)
-application.logger.setLevel(logging.INFO)
 required_configs = []
+# logging setup
+kwargs = {}
+formatter = gogo.formatters.structured_formatter
+logger = gogo.Gogo('struct', low_formatter=formatter).get_logger(**kwargs)
 
 
 @application.route('/')
@@ -14,18 +17,16 @@ def index():
 
 @application.route('/webhook', methods=['GET', 'POST'])
 def web_hook():
-    application.logger.info("Web hook called")
-    application.logger.debug("Web hook headers: {}".format(request.headers))
+    logger.info("Web hook called")
     info = request.form.to_dict()
     payload = info["payload"]
     # convert into JSON:
     json_payload = json.loads(payload)
-    application.logger.debug("json payload {}".format(json_payload))
-    application.logger.info(
-        "Interesting data - Event: '{}' User: '{}' Type: '{}' Title: '{}'".format(json_payload["event"],
-                                                                                  json_payload["user"],
-                                                                                  json_payload["Metadata"]["type"],
-                                                                                  json_payload["Metadata"]["title"]))
+    logger.info("Web hook JSON data", extra={'json': json_payload})
+    logger.info("Interesting data", extra={'event': json_payload["event"],
+                                           'user': json_payload["user"],
+                                           'type': json_payload["Metadata"]["type"],
+                                           'title': json_payload["Metadata"]["title"]})
     return 'Done'
 
 
@@ -37,7 +38,7 @@ def health_check():
 
 @application.route('/config')
 def config():
-    application.logger.info("Rendering config page")
+    logger.info("Rendering config page")
     response_text = ""
     for config in required_configs:
         value = application.config.get(config)
