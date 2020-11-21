@@ -16,7 +16,7 @@ pycodestyle==2.6.0
 pyflakes==2.2.0
 pygogo==0.13.2
 pyparsing==2.4.7
-pytest==5.4.3
+pytest==6.1.2
 six==1.15.0
 wcwidth==0.2.5
 Werkzeug==1.0.1
