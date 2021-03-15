@@ -13,7 +13,7 @@ packaging==20.7
 pluggy==0.13.1
 py==1.9.0
 pycodestyle==2.6.0
-pyflakes==2.2.0
+pyflakes==2.3.0
 pygogo==0.13.2
 pyparsing==2.4.7
 pytest==6.1.2
